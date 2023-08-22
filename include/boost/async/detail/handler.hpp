@@ -20,6 +20,13 @@ namespace boost::async
 namespace detail
 {
 
+template<typename ... >
+struct composed_promise_return;
+
+
+template<typename ... >
+struct composed_promise;
+
 enum class completed_immediately_t
 {
   no, maybe, yes, initiating
@@ -224,6 +231,11 @@ struct completion_handler : detail::completion_handler_base
  private:
     std::unique_ptr<void, detail::coro_deleter<void>> self;
     std::optional<std::tuple<Args...>> &result;
+
+  template<typename ... >
+  friend struct detail::composed_promise_return;
+  template<typename ... >
+  friend struct detail::composed_promise;
 };
 
 
