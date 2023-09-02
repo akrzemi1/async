@@ -89,6 +89,8 @@ struct channel
     BOOST_NOINLINE 
     std::coroutine_handle<void> await_suspend(std::coroutine_handle<Promise> h);
     T await_resume();
+    std::tuple<system::error_code, T> await_resume(const struct as_tuple_tag & );
+    system::result<T> await_resume(const struct as_result_tag &);
     explicit operator bool() const {return chn && chn->is_open();}
   };
 
@@ -117,6 +119,8 @@ struct channel
     BOOST_NOINLINE 
     std::coroutine_handle<void> await_suspend(std::coroutine_handle<Promise> h);
     void await_resume();
+    std::tuple<system::error_code> await_resume(const struct as_tuple_tag & );
+    system::result<void> await_resume(const struct as_result_tag &);
     explicit operator bool() const {return chn && chn->is_open();}
   };
 
@@ -209,6 +213,8 @@ struct channel<void>
     BOOST_NOINLINE 
     std::coroutine_handle<void> await_suspend(std::coroutine_handle<Promise> h);
     BOOST_ASYNC_DECL void await_resume();
+    BOOST_ASYNC_DECL std::tuple<system::error_code> await_resume(const struct as_tuple_tag & );
+    BOOST_ASYNC_DECL system::result<void> await_resume(const struct as_result_tag &);
     explicit operator bool() const {return chn && chn->is_open();}
   };
 
@@ -239,6 +245,8 @@ struct channel<void>
     std::coroutine_handle<void> await_suspend(std::coroutine_handle<Promise> h);
 
     BOOST_ASYNC_DECL void await_resume();
+    BOOST_ASYNC_DECL std::tuple<system::error_code> await_resume(const struct as_tuple_tag & );
+    BOOST_ASYNC_DECL system::result<void> await_resume(const struct as_result_tag &);
     explicit operator bool() const {return chn && chn->is_open();}
   };
 
